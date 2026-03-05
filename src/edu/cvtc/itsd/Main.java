@@ -53,8 +53,14 @@ public class Main {
     public void replace(FilterBypass fb, int offset, int lengthToDelete, String stringToAdd, AttributeSet attr)
         throws BadLocationException
     {
+      int currentLength =  fb.getDocument().getLength();
       if (fb.getDocument() != null) {
         super.replace(fb, offset, lengthToDelete, stringToAdd, attr);
+        //checks to see if the max length has been reached by the input string
+        if (currentLength + 1 == MAX_LENGTH) {
+            //if so, calls the processCard() method which had previously been called by the Update button
+            Main.processCard();
+        }
       }
       else {
         Toolkit.getDefaultToolkit().beep();
@@ -259,12 +265,6 @@ public class Main {
     fieldNumber.setBackground(Color.green);
     fieldNumber.setForeground(Color.magenta);
     panelMain.add(fieldNumber);
-
-    JButton updateButton = new JButton("Update");
-    updateButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-    updateButton.addActionListener(new Update());
-    updateButton.setForeground(Color.green);
-    panelMain.add(updateButton);
 
     panelMain.add(Box.createVerticalGlue());
 
